@@ -1,0 +1,145 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="HarmonyX" Version="2.16.1">
+			<IncludeAssets>compile</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="Core">
+			<HintPath>$(SPZ2_PATH)\Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Game.Core">
+			<HintPath>$(SPZ2_PATH)\Game.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Game.Core.Editor.MeshBaker">
+			<HintPath>$(SPZ2_PATH)\Game.Core.Editor.MeshBaker.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Game.Core.Effects">
+			<HintPath>$(SPZ2_PATH)\Game.Core.Effects.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Game.Core.Effects.Editor.MonoBehaviours">
+			<HintPath>$(SPZ2_PATH)\Game.Core.Effects.Editor.MonoBehaviours.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Game.Core.Modding">
+			<HintPath>$(SPZ2_PATH)\Game.Core.Modding.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Game.Core.Rendering">
+			<HintPath>$(SPZ2_PATH)\Game.Core.Rendering.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Game.Core.Rendering.ShaderProfiling">
+			<HintPath>$(SPZ2_PATH)\Game.Core.Rendering.ShaderProfiling.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Game.Content">
+			<HintPath>$(SPZ2_PATH)\Game.Content.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Game.Orchestration">
+			<HintPath>$(SPZ2_PATH)\Game.Orchestration.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="SPZGameAssembly">
+			<HintPath>$(SPZ2_PATH)\SPZGameAssembly.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(SPZ2_PATH)\UnityEngine.CoreModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.UIModule">
+			<HintPath>$(SPZ2_PATH)\UnityEngine.UIModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.UI">
+			<HintPath>$(SPZ2_PATH)\UnityEngine.UI.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="MainMenuAssembly">
+			<HintPath>$(SPZ2_PATH)\MainMenuAssembly.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Core.Localization">
+			<HintPath>$(SPZ2_PATH)\Core.Localization.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="DOTween">
+			<HintPath>$(SPZ2_PATH)\DOTween.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Unity.Core">
+			<HintPath>$(SPZ2_PATH)\Unity.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="LeTai.Asset.TranslucentImage">
+			<HintPath>$(SPZ2_PATH)\LeTai.Asset.TranslucentImage.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+			<HintPath>$(SPZ2_PATH)\Unity.TextMeshPro.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="SPZPluginsAssembly">
+			<HintPath>$(SPZ2_PATH)\SPZPluginsAssembly.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Newtonsoft.Json">
+			<HintPath>$(SPZ2_PATH)\Newtonsoft.Json.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Shapez2UILib">
+			<HintPath>$(SPZ2_PERSISTENT)\mods\Shapez2UILib\Shapez2UILib.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<UiLibModId>local:Shapez2UILib</UiLibModId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<UiLibModId>steam:3735218203</UiLibModId>
+	</PropertyGroup>
+
+	<Target Name="GenerateModJson" AfterTargets="Build">
+
+		<PropertyGroup>
+			<ManifestTemplateContent>
+				$([System.IO.File]::ReadAllText('manifest.template.json'))
+			</ManifestTemplateContent>
+
+			<ProcessedJson>
+				$(ManifestTemplateContent.Replace('__UILIB_MODID__', '$(UiLibModId)'))
+			</ProcessedJson>
+		</PropertyGroup>
+
+		<WriteLinesToFile File="$(TargetDir)manifest.json" Lines="$(ProcessedJson)" Overwrite="true" />
+
+	</Target>
+
+	<ItemGroup>
+		<None Update="translations.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<OutputPath>$(SPZ2_PERSISTENT)\mods\Shapez2ModConfig</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
+
+	<Target Name="SteamPublish">
+		<Exec Command="sh .\Steam\SteamPublish.sh &quot;$(OutputPath)" />
+	</Target>
+</Project>

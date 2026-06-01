@@ -1,5 +1,5 @@
 ﻿{
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Description": "A Library To Add Mod Config To Shapez 2",
   "Author": "Bknibb",
   "GameVersionSupportRange": ">=1.0.0",
@@ -15,7 +15,7 @@
     {
       "ModId": "__UILIB_MODID__",
       "ModTitle": "Shapez2UILib",
-      "Version": ">=1.0.0"
+      "Version": ">=1.1.0"
     }
   ],
   "Conflicts": []

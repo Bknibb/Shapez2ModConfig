@@ -3,7 +3,9 @@ using Core.Localization;
 using Shapez2UILib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Unity.Core.View;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,15 +16,23 @@ namespace Shapez2ModConfig
         [Construct]
         private void Construct()
         {
+            DefaultChildReferences = this.GetChildComponentReferences();
+            DefaultChildren = this.GetChildren().ToArray();
+        }
+        public void SetConfig(ModConfig config)
+        {
             OnClosed.Register(() =>
             {
                 Config.Save();
                 Config.OnChanged.Invoke();
             });
-        }
-        public void SetConfig(ModConfig config)
-        {
-            if (Config != null) return;
+            for (int i = 0; i < container.childCount; i++)
+            {
+                Destroy(container.GetChild(i).gameObject);
+            }
+            this.SetChildComponentReferences(DefaultChildReferences);
+            this.GetChildren().Clear();
+            this.GetChildren().AddRange(DefaultChildren);
             Config = config;
             foreach (var entry in config.GetEntries())
             {
@@ -57,5 +67,7 @@ namespace Shapez2ModConfig
         }
         public ModConfig Config;
         public Transform container;
+        public HUDComponent[] DefaultChildReferences;
+        public IView[] DefaultChildren;
     }
 }

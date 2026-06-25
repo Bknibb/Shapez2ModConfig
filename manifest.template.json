@@ -1,8 +1,8 @@
 ﻿{
-  "Version": "1.0.4",
+  "Version": "1.0.5",
   "Description": "A Library To Add Mod Config To Shapez 2",
   "Author": "Bknibb",
-  "GameVersionSupportRange": ">=1.1.0",
+  "GameVersionSupportRange": ">=1.0.0",
   "Assemblies": [
     "Shapez2ModConfig.dll"
   ],

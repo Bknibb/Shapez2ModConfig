@@ -16,8 +16,8 @@ namespace Shapez2ModConfig
         [Construct]
         private void Construct()
         {
-            DefaultChildReferences = this.GetChildComponentReferences();
-            DefaultChildren = this.GetChildren().ToArray();
+            DefaultChildReferences = ChildComponentReferences;
+            DefaultChildren = Children.ToArray();
         }
         public void SetConfig(ModConfig config)
         {
@@ -30,9 +30,9 @@ namespace Shapez2ModConfig
             {
                 Destroy(container.GetChild(i).gameObject);
             }
-            this.SetChildComponentReferences(DefaultChildReferences);
-            this.GetChildren().Clear();
-            this.GetChildren().AddRange(DefaultChildren);
+            ChildComponentReferences = DefaultChildReferences;
+            Children.Clear();
+            Children.AddRange(DefaultChildren);
             Config = config;
             foreach (var entry in config.GetEntries())
             {

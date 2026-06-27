@@ -38,10 +38,10 @@ namespace Shapez2ModConfig
         }
         private void ModMenuEntryConstructor(HUDModMenuEntry hudModMenuEntry)
         {
-            var manifest = hudModMenuEntry.GetDependencyResolver().Resolve<ModManifest>();
-            if (!(hudModMenuEntry.GetDependencyResolver().Resolve<IModdingFrameworkEnvironment>().Context.ExecutableMods.Cast<ExecutableMod?>().FirstOrDefault(mod => mod.Value.Metadata == manifest) is ExecutableMod mod)) return;
+            var manifest = hudModMenuEntry.DependencyResolver.Resolve<ModManifest>();
+            if (!(hudModMenuEntry.DependencyResolver.Resolve<IModdingFrameworkEnvironment>().Context.ExecutableMods.Cast<ExecutableMod?>().FirstOrDefault(mod => mod.Value.Metadata == manifest) is ExecutableMod mod)) return;
             if (!ModConfig.TryGetByModClass(mod.EntryPoint.GetType(), out ModConfig modConfig)) return;
-            var dialogStack = hudModMenuEntry.GetDependencyResolver().Resolve<IHUDDialogStack>();
+            var dialogStack = hudModMenuEntry.DependencyResolver.Resolve<IHUDDialogStack>();
             var iconButton = UIFactory.AddIconButton(hudModMenuEntry.transform.GetChild(1), hudModMenuEntry, true, SettingsSprite);
             iconButton.name = "ModSettingsButton";
             var layoutElement = iconButton.gameObject.AddComponent<LayoutElement>();

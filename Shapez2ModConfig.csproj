@@ -6,6 +6,10 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="HarmonyX" Version="2.16.1">
 			<IncludeAssets>compile</IncludeAssets>
 		</PackageReference>
@@ -51,7 +55,7 @@
 			<HintPath>$(SPZ2_PATH)\Game.Orchestration.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<Reference Include="SPZGameAssembly">
+		<Reference Include="SPZGameAssembly" Publicize="true">
 			<HintPath>$(SPZ2_PATH)\SPZGameAssembly.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
